@@ -1,7 +1,7 @@
 pipeline {
     agent any
-tools {
-      oc 'oc'
+//tools {
+  //    oc 'oc'
   }
 
     stages {
