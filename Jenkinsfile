@@ -29,10 +29,8 @@ tools {
                         }
                     }
                 }
-    }
 
-    stages {
-                stage ('Deploy App') { 
+                 stage ('Deploy App') { 
                     steps {
                     script {
                         openshift.withCluster( CLUSTER_NAME ) {
@@ -43,5 +41,5 @@ tools {
                     }
                     }
                 }
-}
+    }
 }
