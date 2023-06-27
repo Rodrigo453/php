@@ -1,48 +1,49 @@
 pipeline {
     agent any
-//tools {
-  //    oc 'oc'
-  }
-
     stages {
-                stage('Git clone'){
+        stage ('Start'){
+            steps {
+                echo 'testeeeeeeeee'
+            }
+        }
+        
+         stage('Git pull'){
                     steps{
                         git url: 'https://github.com/Rodrigo453/php.git', branch: 'main'
                     }
-                }
+        }
 
-                stage('Docker Build'){
-                    steps{
-                        script{
-                            dockerapp = docker.build("rodrigo453/teste:${env.BUILD_ID}",
-                                '-f ./Dockerfile .')
-                        }
+        stage('build and push dockerhub') {
+            steps{
+                script{
+                    openshift.withCluster() {
+                    openshift.selector("bc", "docker-build").startBuild()
                     }
                 }
+            }   
+        }
 
-                stage('Docker push image'){
-                    steps{
-                        script{
-                            docker.withRegistry('https://registry.hub.docker.com/' , 'DockerHub'){
-                            dockerapp.push('latest')
-                            dockerapp.push("${env.BUILD_ID}")
-                            }
-                        }
-                    }
-                }
-    }
-
-                stages{
-                    stage ('Deploy App') { 
-                        steps {
-                            script {
-                            openshift.withCluster( CLUSTER_NAME ) {
-                            openshift.withProject( PROJECT_NAME ) {
-                            def created = openshift.newApp( 'https://github.com/Rodrigo453/php.git' ) 
-                            }
-                        }       
-                    }
-                    }
-                }
+         stage('teste tempo'){
+            steps{
+            sleep(time:5,unit:"MINUTES")
+            }
+        }
         
-    }
+            stage('Start Rollout'){
+                    steps{
+                script{
+                    openshift.withCluster() {
+                    openshift.selector("dc", "teste").rollout().latest()
+                    
+                    }
+                }
+            }   
+        }
+        
+        
+        
+        
+                
+      
+    }//fim stages
+}    
