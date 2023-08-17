@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-        <h1>Teste de deploy Funcionando alteração</h1>
+        <h1>Teste de deploy Funcionando</h1>
     
 </body>
 </html>
