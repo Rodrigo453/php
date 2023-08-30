@@ -1,4 +1,4 @@
-FROM php:8.3.0beta3-apache
+FROM php
 COPY ./ ./
-EXPOSE 80
-CMD ["php", "-S", "0.0.0.0:80"]
+EXPOSE 3000
+CMD ["php", "-S", "0.0.0.0:3000"]
